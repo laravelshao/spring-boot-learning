@@ -16,44 +16,86 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(value = "/user/list", method = RequestMethod.GET)
-    public List<User> getUsers() {
-        return userService.findUserList();
-    }
-
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    /**
+     * 根据id查询用户信息
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/queryUserById/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable("id") int id) {
-        return userService.findUserById(id);
+        return userService.queryUserById(id);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public String updateUser(@PathVariable("id") int id,
-                             @RequestParam(value = "name", required = true) String name,
-                             @RequestParam(value = "mobile", required = true) String mobile) {
+    /**
+     * 查询用户信息列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/queryUserList", method = RequestMethod.GET)
+    public List<User> queryUserList() {
+        return userService.queryUserList();
+    }
+
+    /**
+     * 根据id更新用户信息
+     *
+     * @param id
+     * @param name
+     * @param mobile
+     * @return
+     */
+    @RequestMapping(value = "/updateUserById/{id}", method = RequestMethod.GET)
+    public String updateUserById(@PathVariable("id") int id,
+                                 @RequestParam(value = "name") String name,
+                                 @RequestParam(value = "mobile") String mobile) {
         User user = new User();
         user.setId(id);
         user.setName(name);
         user.setMobile(mobile);
-        int t = userService.update(user);
-        if (t == 1) {
-            return user.toString();
-        } else {
-            return "fail";
+        int res = userService.updateUserById(user);
+        if (res == 0) {
+            return "update failed";
         }
+
+        return "update success->" + user.toString();
     }
 
-    @RequestMapping(value = "/user/add", method = RequestMethod.POST)
-    public String addUserPost(@RequestParam(value = "name") String name,
-                              @RequestParam(value = "mobile") String mobile) {
+    /**
+     * 添加用户信息
+     *
+     * @param name
+     * @param mobile
+     * @return
+     */
+    @RequestMapping(value = "/insertUserPost", method = RequestMethod.POST)
+    public String insertUser(@RequestParam(value = "name") String name,
+                             @RequestParam(value = "mobile") String mobile) {
         User user = new User();
         user.setName(name);
         user.setMobile(mobile);
-        int t = userService.add(user);
-        if (t == 1) {
-            return user.toString();
-        } else {
-            return "fail";
+        int res = userService.insertUser(user);
+        if (res == 0) {
+            return "insert failed";
         }
+
+        return "insert success->" + user.toString();
+    }
+
+    /**
+     * 根据id删除用户
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/deleteUserById/{id}", method = RequestMethod.GET)
+    public String deleteUserById(@PathVariable("id") int id) {
+        int res = userService.deleteUserById(id);
+        if (res == 0) {
+            return "delete failed";
+        }
+
+        return "delete success";
     }
 
 }

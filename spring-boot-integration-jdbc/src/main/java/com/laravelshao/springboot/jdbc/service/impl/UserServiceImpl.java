@@ -18,27 +18,28 @@ public class UserServiceImpl implements IUserService {
     private IUserDao userDao;
 
     @Override
-    public int add(User user) {
-        return userDao.add(user);
+    public User queryUserById(int id) {
+        return userDao.queryUserById(id);
     }
 
     @Override
-    public int update(User user) {
-        return userDao.update(user);
+    public List<User> queryUserList() {
+        return userDao.queryUserList();
     }
 
     @Override
-    public int delete(int id) {
-        return userDao.delete(id);
+    public int updateUserById(User user) {
+        return userDao.updateUserById(user);
     }
 
     @Override
-    public User findUserById(int id) {
-        return userDao.findUserById(id);
+    public int insertUser(User user) {
+        return userDao.insertUser(user);
     }
 
     @Override
-    public List<User> findUserList() {
-        return userDao.findUserList();
+    public int deleteUserById(int id) {
+        return userDao.deleteUserById(id);
     }
+
 }

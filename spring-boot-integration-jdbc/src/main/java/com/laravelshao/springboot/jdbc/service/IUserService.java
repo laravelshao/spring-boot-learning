@@ -9,13 +9,14 @@ import java.util.List;
  */
 public interface IUserService {
 
-    int add(User user);
+    User queryUserById(int id);
 
-    int update(User user);
+    List<User> queryUserList();
 
-    int delete(int id);
+    int updateUserById(User user);
 
-    User findUserById(int id);
+    int insertUser(User user);
 
-    List<User> findUserList();
+    int deleteUserById(int id);
+
 }

@@ -19,25 +19,7 @@ public class UserDaoImpl implements IUserDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int add(User user) {
-        String sql = "insert into tb_spring(name,mobile) values(?, ?)";
-        return jdbcTemplate.update(sql, user.getName(), user.getMobile());
-    }
-
-    @Override
-    public int update(User user) {
-        String sql = "update tb_spring set name = ?, mobile = ? where id = ?";
-        return jdbcTemplate.update(sql, user.getName(), user.getMobile(), user.getId());
-    }
-
-    @Override
-    public int delete(int id) {
-        String sql = "delete from table tb_spring where id = ?";
-        return jdbcTemplate.update(sql, id);
-    }
-
-    @Override
-    public User findUserById(int id) {
+    public User queryUserById(int id) {
         String sql = "select * from tb_spring where id = ?";
         List<User> list = jdbcTemplate.query(sql, new Object[]{id}, new BeanPropertyRowMapper(User.class));
         if (list != null && list.size() > 0) {
@@ -48,7 +30,7 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
-    public List<User> findUserList() {
+    public List<User> queryUserList() {
         String sql = "select * from tb_spring";
         List<User> list = jdbcTemplate.query(sql, new Object[]{}, new BeanPropertyRowMapper(User.class));
         if (list != null && list.size() > 0) {
@@ -56,6 +38,24 @@ public class UserDaoImpl implements IUserDao {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public int updateUserById(User user) {
+        String sql = "update tb_spring set name = ?, mobile = ? where id = ?";
+        return jdbcTemplate.update(sql, user.getName(), user.getMobile(), user.getId());
+    }
+
+    @Override
+    public int insertUser(User user) {
+        String sql = "insert into tb_spring(name,mobile) values(?, ?)";
+        return jdbcTemplate.update(sql, user.getName(), user.getMobile());
+    }
+
+    @Override
+    public int deleteUserById(int id) {
+        String sql = "delete from tb_spring where id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 
 }
